@@ -12,7 +12,8 @@ import PasswordGenerator from './components/PasswordGenerator';
 import JobBoard from './components/JobBoard';
 import GridLights from './components/GridLights';
 import QuizApp from './components/QuizApp';
-import EcommerceSlider from './components/EcommerceSlider';
+// import EcommerceSlider from './components/EcommerceSlider';
+import GridSelect from './components/GridSelect';
 export default function App() {
   return (
     <main>
@@ -29,7 +30,8 @@ export default function App() {
       {/* <JobBoard/> */}
       {/* <GridLights/> */}
       {/* <QuizApp/> */}
-      <EcommerceSlider/>
+      {/* <EcommerceSlider/> */}
+      <GridSelect cols={15} rows={15}/>
     </main>
   )
 }
