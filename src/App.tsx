@@ -12,8 +12,9 @@ import PasswordGenerator from './components/PasswordGenerator';
 import JobBoard from './components/JobBoard';
 import GridLights from './components/GridLights';
 import QuizApp from './components/QuizApp';
-// import EcommerceSlider from './components/EcommerceSlider';
+import EcommerceSlider from './components/EcommerceSlider';
 import GridSelect from './components/GridSelect';
+import TicTacToe from './components/TicTacToe';
 export default function App() {
   return (
     <main>
@@ -31,7 +32,8 @@ export default function App() {
       {/* <GridLights/> */}
       {/* <QuizApp/> */}
       {/* <EcommerceSlider/> */}
-      <GridSelect cols={15} rows={15}/>
+      {/* <GridSelect cols={15} rows={15}/> */}
+      <TicTacToe rows={3} cols={3}/>
     </main>
   )
 }
