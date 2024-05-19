@@ -15,6 +15,7 @@ import QuizApp from './components/QuizApp';
 import EcommerceSlider from './components/EcommerceSlider';
 import GridSelect from './components/GridSelect';
 import TicTacToe from './components/TicTacToe';
+import SearchInput from './components/SearchInput';
 export default function App() {
   return (
     <main>
@@ -33,7 +34,8 @@ export default function App() {
       {/* <QuizApp/> */}
       {/* <EcommerceSlider/> */}
       {/* <GridSelect cols={15} rows={15}/> */}
-      <TicTacToe rows={3} cols={3}/>
+      {/* <TicTacToe rows={3} cols={3}/> */}
+    <SearchInput/>
     </main>
   )
 }
