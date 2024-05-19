@@ -26,12 +26,12 @@ export default function SearchInput() {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Backspace' && searchUser === '' && pills.length > 0) {
-      
+
       setPills((prev) => prev.slice(0, -1));
     }
   };
 
-  const handleClick = (id: number, firstName: string) => {
+  const handleClick = ( firstName: string) => {
     if (!pills.includes(firstName))
       setPills(prev => [...prev, firstName])
     else {
@@ -42,15 +42,15 @@ export default function SearchInput() {
   }
 
   const handleMouseOver = (id: number, firstName: string) => {
-    if (!pills.includes(firstName))
-      setSelectedId(id)
+
+    setSelectedId(id)
   }
 
 
 
 
   return <div style={{ maxWidth: '75%', margin: '0 auto' }}>
-    <div className="input-container" style={{ width: '100%', height: '40px', fontSize: '20px', padding:'3px 4px', border: '2px solid black', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+    <div className="input-container" style={{ width: '100%', height: '40px', fontSize: '20px', padding: '3px 4px', border: '2px solid black', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
       {pills.length > 0 &&
         <div style={{ display: 'flex', gap: '5px', }}>
           {pills.map(pill => (<Pill pills={pills} setPills={setPills} firstName={pill} />
@@ -58,22 +58,36 @@ export default function SearchInput() {
 
         </div>
       }
-      <input ref={inputRef} style={{ border: 'none', fontSize: '20px', padding: '3px 20px', flex: '1', outline: 'none', }} onChange={e => setSearchUser(e.target.value)} placeholder={`${(pills.length === 0 && !searchUser) ? "Enter something to search" : ""}`} 
+      <input ref={inputRef} style={{ border: 'none', fontSize: '20px', padding: '3px 20px', flex: '1', outline: 'none', }} onChange={e => setSearchUser(e.target.value)} placeholder={`${(pills.length === 0 && !searchUser) ? "Enter something to search" : ""}`}
         onKeyDown={handleKeyDown}
-        />
+      />
 
     </div>
 
     <div onMouseLeave={() => setSelectedId(0)} style={{ maxHeight: '600px', overflowY: 'auto' }}>
-      {users.map((user: any) => (
-        <div onMouseOver={() => handleMouseOver(user.id, user.firstName)} onClick={() => handleClick(user.id, user.firstName)} key={user.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: `${selectedId === user.id ? "lightgray" : `${pills.includes(user.firstName) ? "lightblue" : "transparent"}`}`, cursor: 'pointer', padding: '4px', margin: '10px 0px' }}>
+
+      
+      {pills.length>0 && pills.map((pill)=>(
+    <div  onClick={() => handleClick(pill)}  style={{ display: 'flex', alignItems: 'center', gap: '10px', background: "lightblue", cursor: 'pointer', padding: '4px', margin: '10px 0px' }}>
+      {/* <img style={{ width: '30px' }} src={user.image} alt={user.image} /> */}
+      <p>{pill}</p>
+    </div>
+      ))}
+        
+      
+      
+     { users.map((user: any) =>{
+    
+    return !pills.includes(user.firstName) && (
+    
+        <div onMouseOver={() => handleMouseOver(user.id, user.firstName)} onClick={() => handleClick( user.firstName)} key={user.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: `${selectedId === user.id ? "lightgray" : `${pills.includes(user.firstName) ? "lightblue" : "transparent"}`}`, cursor: 'pointer', padding: '4px', margin: '10px 0px' }}>
           <img style={{ width: '30px' }} src={user.image} alt={user.image} />
           <p>{user.firstName}</p>
         </div>
-      ))}
+   ) })}
     </div>
-  </div>
-}
+  </div>}
+
 
 
 function Pill({ firstName, pills, setPills }: { firstName: string, pills: string[], setPills: React.Dispatch<React.SetStateAction<string[]>> }) {
