@@ -59,13 +59,17 @@ function OTPInputBox({ inputBoxes, setInputBoxes, otpNum }: OTPInputBoxProps) {
        
    }
   }
+
+  const handleClick=(index:number)=>{
+    inputRefs.current[index].setSelectionRange(1,1)
+  }
   return <div style={{ textAlign: 'center' }}>
     <h3>OTP send to this number:</h3>
     <h4>{otpNum}</h4>
 
     <div style={{ display: 'flex', gap: "20px", alignItems: 'center' }}>
       {inputBoxes.map((value, index) => (
-        <input onKeyDown={(e) => handlePress(e, index)} ref={(el) => inputRefs.current[index] = el} value={value} style={{ width: "40px", textAlign: 'center', fontSize: '30px', padding: '10px' }} key={index} type="text" onChange={e => handleChange(e, index)} />
+        <input onClick={()=>handleClick(index)} onKeyDown={(e) => handlePress(e, index)} ref={(el) => inputRefs.current[index] = el} value={value} style={{ width: "40px", textAlign: 'center', fontSize: '30px', padding: '10px' }} key={index} type="text" onChange={e => handleChange(e, index)} />
       ))}
 
     </div>
