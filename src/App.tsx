@@ -16,6 +16,7 @@ import EcommerceSlider from './components/EcommerceSlider';
 import GridSelect from './components/GridSelect';
 import TicTacToe from './components/TicTacToe';
 import SearchInput from './components/SearchInput';
+import OTPInput from './components/OTPInput';
 export default function App() {
   return (
     <main>
@@ -35,7 +36,8 @@ export default function App() {
       {/* <EcommerceSlider/> */}
       {/* <GridSelect cols={15} rows={15}/> */}
       {/* <TicTacToe rows={3} cols={3}/> */}
-    <SearchInput/>
+    {/* <SearchInput/> */}
+      <OTPInput inputFields={4}/>
     </main>
   )
 }
