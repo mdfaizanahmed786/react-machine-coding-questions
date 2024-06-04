@@ -41,8 +41,11 @@ function OTPInputBox({ inputBoxes, setInputBoxes, otpNum }: OTPInputBoxProps) {
       inputRefs.current[0].focus();
     }
   }, [])
+
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newInputBoxes = [...inputBoxes];
+   
     newInputBoxes[index] = e.target.value.substring(e.target.value.length - 1)
     const otpInputBoxesLength = newInputBoxes.length
     if (e.target.value && index < otpInputBoxesLength && inputRefs.current[index + 1]) {
@@ -52,16 +55,30 @@ function OTPInputBox({ inputBoxes, setInputBoxes, otpNum }: OTPInputBoxProps) {
     setInputBoxes(newInputBoxes)
   }
 
-  const handlePress = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
-    
+  const handlePress = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {  
    if(e.key==="Backspace" && !inputBoxes[index] && index>0 && inputRefs.current[index-1]){
         inputRefs.current[index-1].focus();
-       
-   }
+         } 
   }
 
   const handleClick=(index:number)=>{
     inputRefs.current[index].setSelectionRange(1,1)
+    if(index>=0 && inputBoxes[index-1]===""){
+      inputRefs.current[index-1].focus();
+    }
+    if(index<inputBoxes.length && inputBoxes[index+1]===""){
+      inputRefs.current[index+1].focus();
+    }
+  }
+
+  const checkForFilledValue=()=> inputBoxes.every(box=>box);
+
+
+  const handleSubmitOTP=()=>{
+    if(checkForFilledValue()){
+      const OTP=inputBoxes.join("")
+      alert(`Your OTP is: ${OTP}`)
+    }
   }
   return <div style={{ textAlign: 'center' }}>
     <h3>OTP send to this number:</h3>
@@ -74,5 +91,6 @@ function OTPInputBox({ inputBoxes, setInputBoxes, otpNum }: OTPInputBoxProps) {
 
     </div>
 
+    <button disabled={!checkForFilledValue()} onClick={handleSubmitOTP}>Submit</button>
   </div>
 }
