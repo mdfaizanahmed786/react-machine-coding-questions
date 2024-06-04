@@ -91,6 +91,6 @@ function OTPInputBox({ inputBoxes, setInputBoxes, otpNum }: OTPInputBoxProps) {
 
     </div>
 
-    <button disabled={!checkForFilledValue()} onClick={handleSubmitOTP}>Submit</button>
+    <button style={{marginTop:'40px'}} disabled={!checkForFilledValue()} onClick={handleSubmitOTP}>Submit</button>
   </div>
 }
