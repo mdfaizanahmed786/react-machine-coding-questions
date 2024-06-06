@@ -17,6 +17,7 @@ import GridSelect from './components/GridSelect';
 import TicTacToe from './components/TicTacToe';
 import SearchInput from './components/SearchInput';
 import OTPInput from './components/OTPInput';
+import DisplayWithPagination from "./components/DisplayWithPagination"
 export default function App() {
   return (
     <main>
@@ -37,7 +38,8 @@ export default function App() {
       {/* <GridSelect cols={15} rows={15}/> */}
       {/* <TicTacToe rows={3} cols={3}/> */}
     {/* <SearchInput/> */}
-      <OTPInput inputFields={4}/>
+      {/* <OTPInput inputFields={4}/> */}
+      <DisplayWithPagination/>
     </main>
   )
 }
