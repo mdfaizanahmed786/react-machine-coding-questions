@@ -18,6 +18,7 @@ import TicTacToe from './components/TicTacToe';
 import SearchInput from './components/SearchInput';
 import OTPInput from './components/OTPInput';
 import DisplayWithPagination from "./components/DisplayWithPagination"
+import TypingSearchAutoComplete from "./components/TypingSearchAutoComplete";
 export default function App() {
   return (
     <main>
@@ -39,7 +40,8 @@ export default function App() {
       {/* <TicTacToe rows={3} cols={3}/> */}
     {/* <SearchInput/> */}
       {/* <OTPInput inputFields={4}/> */}
-      <DisplayWithPagination/>
+      {/* <DisplayWithPagination/> */}
+      <TypingSearchAutoComplete/>
     </main>
   )
 }
