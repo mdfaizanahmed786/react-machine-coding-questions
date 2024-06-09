@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react"
+import  { useEffect, useRef, useState } from "react"
 
 export default function TypingSearchAutoComplete(){
   const [users, setUsers]=useState({
@@ -6,9 +6,15 @@ export default function TypingSearchAutoComplete(){
   })
   const [search, setSearch]=useState("")
   const [loading, setLoading]=useState(false)
+  const [selectedIndex, setSelectedIndex]=useState(-1)
+  const suggestedRefs=useRef([])
 
   const fetchFruits=async()=>{
-    if(!search) return;
+    if(!search){
+      setUsers({users:[]})
+      
+      return;
+    }
     try{
       setLoading(true)
       const response=await fetch(`https://dummyjson.com/users/search?q=${search}`)
@@ -18,6 +24,7 @@ export default function TypingSearchAutoComplete(){
       }
       const data=await response.json();
       setUsers(prev=>({...prev, users: data.users}))
+      setSelectedIndex(-1)
     }
     catch(err){
       console.log(err, "Error in this code")
@@ -28,12 +35,19 @@ export default function TypingSearchAutoComplete(){
   }
 
   useEffect(()=>{
+    
     fetchFruits();
   },[search])
 
-  useEffect(()=>{
-    setUsers({users:[]})
-  },[search])
+  useEffect(() => {
+    if (selectedIndex >= 0 && suggestedRefs.current[selectedIndex]) {
+      suggestedRefs.current[selectedIndex].scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+  }, [selectedIndex]);
+
 
 const myDebounce=(callback: ()=>void, delay:number)=>{
     let timer:any;
@@ -46,19 +60,50 @@ const myDebounce=(callback: ()=>void, delay:number)=>{
     }
   }
 
-  
+  const handleKeyDown=(e:React.KeyboardEvent<HTMLInputElement>)=>{
+
+    if(e.key==="ArrowDown"){
+      setSelectedIndex(prev=>prev>=users.users.length-1 ? prev : prev+1)
+      
+    }
+    else if(e.key==="ArrowUp"){
+       setSelectedIndex(prev=>prev<=0 ? 0 : prev-1)
+    }
+
+    else if(e.key==="Enter"){
+      setSearch(users.users[selectedIndex].firstName);
+      setUsers({users:[]});
+    }
+    
+  }
+
+const handleMouseEnter=(index:number)=>{
+  setSelectedIndex(index)
+}
 const handleDebounceSearch=myDebounce((e:any)=>{
      setSearch(e.target.value)
   },300)
   return <div style={{display:'flex', maxWidth:'90%', margin:'0 auto', justifyContent:'center'}}>
     <div>
-  <input style={{width:'300px'}}  onChange={handleDebounceSearch}/>
+  <input defaultValue={search} style={{width:'300px'}} onKeyDown={handleKeyDown}   onChange={handleDebounceSearch}/>
       {loading ? <div style={{height:'200px', overflowY:'auto', boxShadow:'3px 3px 3px lightgrey'}}>Loading...</div> : 
 
     <>
   {users.users.length!==0 && <div style={{height:'200px', overflowY:'auto', boxShadow:'3px 3px 3px lightgrey'}}>
     {users.users.length!==0 && users.users.map((user:any, i)=>(
-    <HighlightedText key={i} text={user.firstName} highlight={search}/>
+      <div key={i} onClick={() => setSearch(user.firstName)}
+        ref={(el)=>suggestedRefs.current[i]=el}
+        style={{
+          backgroundColor: i === selectedIndex ? "lightgray" : "white",
+          padding: "5px",
+          cursor: "pointer",
+        }}
+        
+        onMouseEnter={()=>handleMouseEnter(i)}
+        >
+         <HighlightedText  text={user.firstName} highlight={search}/>
+      </div>
+   
     ))}
    </div>}
       </>  
@@ -77,12 +122,12 @@ const HighlightedText=({text, highlight}: {text:string| any, highlight: string})
     const highlightedRegex=new RegExp(`(${highlight})`, "gi");
     const parts=text.split(highlightedRegex)
 
-  return <div>{
+  return <>{
     parts.map((part, i)=>{
       return <span key={i}>
         {part.toLowerCase()===highlight.toLowerCase() ? <strong style={{color:'blue'}}>{part}</strong> : <span>{part}</span>}
       </span>
     })
-  }</div>
+  }</>
   
 }
